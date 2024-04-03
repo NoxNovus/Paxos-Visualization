@@ -13,22 +13,22 @@ def handler(clientsock,addr):
     while 1:
         try:
             data = clientsock.recv(BUFSIZ)
-        except error, e:
+        except (error, e):
             mainHandler.parseSocketData(source,"DEAD")
             break
-        print data
+        print (data)
         if not data:
-            print 'connection break',addr
+            print ('connection break',addr)
             mainHandler.parseSocketData(source,"DEAD")
             break
         dataSplit = data.split("|")
         if(dataSplit[0].lower() == "PORT".lower()):
             source = string.strip(dataSplit[1])
-            print source
+            print (source)
         mainHandler.parseSocketData(source,string.strip(data))
         #msg = 'OK'
         #clientsock.send(msg)
-    print 'connection closed by ' , addr
+    print ('connection closed by ' , addr)
     clientsock.close()
 
 def createUI(mainHandler,args):
@@ -43,10 +43,10 @@ if __name__=='__main__':
     serversock.bind(ADDR)
     serversock.listen(2)
     mainHandler = paxosUIFactory()
-    print mainHandler
+    print (mainHandler)
 
     while 1:
-        print 'waiting for connection...'
+        print ('waiting for connection...')
         clientsock, addr = serversock.accept()
-        print '...connected from:', addr
+        print ('...connected from:'), addr
         thread.start_new_thread(handler, (clientsock, addr))

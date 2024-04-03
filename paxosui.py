@@ -1,5 +1,5 @@
 #!/usr/bin/python
-from Tkinter import *
+import tkinter
 import threading
 import thread
 import time
@@ -48,11 +48,11 @@ class MainWindow:
             self.client1["text"] = "Kill Client 1"
             pipe = subprocess.Popen(["./lock_server",self.portArray[0],self.portArray[0]])
             self.client1Pid = pipe.pid
-            print str(self.client1Pid)
+            print (str(self.client1Pid))
         else:
             self.client1["text"] = "Start Client 1"
             os.kill(self.client1Pid,9)
-        print 'click 1'
+        print ('click 1')
 
     def client2Click(self):
         if(self.client2["text"] == "Start Client 2"):
@@ -62,7 +62,7 @@ class MainWindow:
         else:
             self.client2["text"] = "Start Client 2"
             os.kill(self.client2Pid,9)
-        print 'click 2'
+        print ('click 2')
 
     def client3Click(self):
         if(self.client3["text"] == "Start Client 3"):
@@ -72,7 +72,7 @@ class MainWindow:
         else:
             self.client3["text"] = "Start Client 3"
             os.kill(self.client3Pid,9)
-        print 'click 3'
+        print ('click 3')
 
     def client4Click(self):
         if(self.client4["text"] == "Start Client 4"):
@@ -82,7 +82,7 @@ class MainWindow:
         else:
             self.client4["text"] = "Start Client 4"
             os.kill(self.client4Pid,9)
-        print 'click 4'
+        print ('click 4')
 
     def addMachine(self,machineNumber,label):
         return Machine(self.canvas,machineNumber,label)
@@ -265,8 +265,8 @@ class MainHandler:
         thread.start_new_thread(createUI,(self.mainWindow,1))
 
     def parseSocketData(self,source,msg):
-        print source
-        print msg
+        print (source)
+        print (msg)
         messageArray = msg.split("|")
         if(messageArray[0].lower() == "PORT".lower()):
             if(source in self.machines):
@@ -279,7 +279,7 @@ class MainHandler:
                 self.mainWindow[0].addArrow(self.machines[messageArray[1]],self.machines[source],"JOIN Request")
             else:
                 if(messageArray[0].lower() == "PREPARE".lower()):
-                    print self.machines
+                    print (self.machines)
                     self.mainWindow[0].addArrow(self.machines[source],self.machines[messageArray[1]],"PREPARE:instance="+messageArray[2]+":n="+messageArray[3])
                     # self.mainWindow[0].updateInstanceValue(self.machines[source],messageArray[2])
                     # self.mainWindow[0].updateNValue(self.machines[source],messageArray[3])
